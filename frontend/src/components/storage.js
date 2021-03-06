@@ -35,8 +35,7 @@ const Storage = (props) => {
     var data = {
       id: currentStorage.id,
       name: currentStorage.name,
-      description: currentStorage.description,
-      completed: status
+      image: currentStorage.image,
     };
 
     StorageDataService.update(currentStorage.id, data)
@@ -88,23 +87,15 @@ const Storage = (props) => {
                 onChange={handleChange}
               />
             </div>
+            <div className ="form-group">
+                <input
+                type='file'
+                onChange={handleChange}
+                />
+            </div>
           </form>
 
-          {currentStorage.published ? (
-            <button
-              className="badge badge-primary mr-2"
-              onClick={() => updateCompleted(false)}
-            >
-              Incomplete
-            </button>
-          ) : (
-            <button
-              className="badge badge-primary mr-2"
-              onClick={() => updateCompleted(true)}
-            >
-              Complete
-            </button>
-          )}
+          
 
           <button className="badge badge-danger mr-2" onClick={() => deleteStorage()}>
             Delete
@@ -113,7 +104,7 @@ const Storage = (props) => {
           <button
             type="submit"
             className="badge badge-success"
-            onClick={() => updateStorage()}
+            onClick={updateStorage}
           >
             Update
           </button>

@@ -8,14 +8,14 @@ const get = id => {
 return http.get(`/storage/${id}`);
 };
 
-const create = data => {
+const create = (data, file) => {
     let formData = new FormData();
 
-    formData.append('data', data);
-    
-    return http.post("/storage", data, {
+    formData.append('file', file);
+
+    return http.post("/storage", data, formData, {
         headers: {
-            "Content-Type": "multipart/form-data",
+            "Content-Type": 'multipart/form-data',
         }
     });
 };

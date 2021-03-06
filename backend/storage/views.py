@@ -48,8 +48,8 @@ def storage_detail(request, pk):
         return JsonResponse(storage_serializer.data) 
     
     elif request.method == 'PUT': 
-        storage_data = JSONParser().parse(request) 
-        storage_serializer = StorageSerializer(storage, data=storage_data) 
+        #storage_data = JSONParser().parse(request) 
+        storage_serializer = StorageSerializer(storage, data=request.data) 
         if storage_serializer.is_valid(): 
             storage_serializer.save() 
             return JsonResponse(storage_serializer.data) 

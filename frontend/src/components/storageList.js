@@ -118,8 +118,9 @@ const StorageList = () => {
               </label>{" "}
               {currentStorage.name}
             </div>
+                <img src={currentStorage.image} width="400vw"/>
             <div>
-                
+
             </div>
 
             <Link

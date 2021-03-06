@@ -5,30 +5,32 @@ const AddStorage = () => {
     const initialStorageState = {
         id: null,
         name: "",
-        image: null,
+        image: undefined,
     };
 
     const [storage, setStorage] = useState(initialStorageState);
-    const [selectedFile, setSelectedFile] = useState(undefined);
-    const [currentFile, setCurrentFile] = useState(undefined);
     const [submitted, setSubmitted] = useState(false);
-
-    const [fileInfos, setFileInfos] = useState([]);
+    const [file, setFile] = useState(undefined);
+    const [currentFile, setCurrentFile] = useState(undefined);
+    const [fileInfo, setFileInfo] = useState([]);
 
     const handleChange = (event) => {
         const { name, value } = event.target;
         setStorage({ ...storage, [name]: value });
     };
 
-    const selectFile = e => {
-        setSelectedFile(e.target.files)
-    }
+    const selectFile = (event) => {
+        setFile(event.target.files);
+    };
 
     const saveStorage = () => {
-        let currentFile = selectFile[0]
+        let currentFile = file;
+
+        setCurrentFile(currentFile);
+
         var data = {
           name: storage.name,
-          description: storage.description
+          image: currentFile
         };
     
         StorageDataService.create(data)
@@ -36,26 +38,27 @@ const AddStorage = () => {
             setStorage({
               id: response.data.id,
               name: response.data.name,
-              description: response.data.description,
+              image: response.data.image,
             });
             setSubmitted(true);
             console.log(response.data);
+            return StorageDataService.get();
           })
           .then((files) => {
-            setFileInfos(files.data)
+              setFileInfo(files.data);
           })
           .catch(e => {
             console.log(e);
           });
-
-        setSelectedFile(undefined)
+        setFile(undefined);
     };
 
     useEffect(() => {
         StorageDataService.get().then((response) => {
-            setFileInfos(response.data)
-        })
-    }, [])
+            setFileInfo(response.data);
+        });
+    }, []);
+
 
     const newStorage = () => {
         setStorage(initialStorageState);
@@ -90,10 +93,11 @@ const AddStorage = () => {
                         <input
                         type='file'
                         onChange={selectFile}
+                        accept=".jpg, .jpeg, .png"
                         />
                     </label>
 
-                    <button onClick={saveStorage} disabled={!selectedFile}className="btn btn-success">
+                    <button onClick={saveStorage} className="btn btn-success">
                         Submit
                     </button>
                 </div>
