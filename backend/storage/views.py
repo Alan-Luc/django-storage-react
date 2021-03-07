@@ -27,6 +27,7 @@ def storage_list(request):
         storage_serializer = StorageSerializer(data=request.data)
         if storage_serializer.is_valid():
             storage_serializer.save()
+            print(storage_serializer.data)
             return JsonResponse(storage_serializer.data, status=status.HTTP_201_CREATED)
 
         return JsonResponse(storage_serializer.errors, status=status.HTTP_400_BAD_REQUEST)

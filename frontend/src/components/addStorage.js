@@ -21,10 +21,11 @@ const AddStorage = () => {
 
     const selectFile = (event) => {
         setFile(event.target.files);
+        console.log(event.target.files);
     };
 
     const saveStorage = () => {
-        let currentFile = file;
+        let currentFile = file[0];
 
         setCurrentFile(currentFile);
 
@@ -33,12 +34,12 @@ const AddStorage = () => {
           image: currentFile
         };
     
-        StorageDataService.create(data)
+        StorageDataService.create(data, currentFile)
           .then(response => {
             setStorage({
               id: response.data.id,
               name: response.data.name,
-              image: response.data.image,
+              image: response.currentFile,
             });
             setSubmitted(true);
             console.log(response.data);
